@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.krakedev.proyectos.entidades.Tarea;
 import com.krakedev.proyectos.services.TareaService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/tareas")
@@ -19,9 +20,9 @@ public class TareaController {
 		this.service = service;
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<?> guardar(@RequestBody Tarea tarea) {
-		try {
+	public ResponseEntity<?> guardar(@RequestBody Tarea tarea) {	try {
 			Tarea nueva = service.guardar(tarea);
 			return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
 		} catch (RuntimeException e) {
@@ -32,9 +33,9 @@ public class TareaController {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@GetMapping
-	public ResponseEntity<?> listar() {
-		try {
+	public ResponseEntity<?> listar() {	try {
 			List<Tarea> tareas = service.listar();
 			return ResponseEntity.ok(tareas);
 		} catch (Exception e) {

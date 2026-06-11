@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.krakedev.proyectos.entidades.Empleado;
 import com.krakedev.proyectos.services.EmpleadoService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/empleados")
@@ -30,9 +31,9 @@ public class EmpleadoController {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@GetMapping
-	public ResponseEntity<?> listar() {
-		try {
+	public ResponseEntity<?> listar() {	try {
 			List<Empleado> empleados = service.listar();
 			return ResponseEntity.ok(empleados);
 		} catch (Exception e) {

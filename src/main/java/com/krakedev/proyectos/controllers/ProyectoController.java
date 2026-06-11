@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.krakedev.proyectos.entidades.Proyecto;
 import com.krakedev.proyectos.services.ProyectoService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/proyectos")
@@ -19,9 +20,9 @@ public class ProyectoController {
 		this.service = service;
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<?> guardar(@RequestBody Proyecto proyecto) {
-		try {
+	public ResponseEntity<?> guardar(@RequestBody Proyecto proyecto) {	try {
 			Proyecto nuevo = service.guardar(proyecto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
 		} catch (Exception e) {
@@ -30,6 +31,7 @@ public class ProyectoController {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@GetMapping
 	public ResponseEntity<?> listar() {
 		try {
@@ -73,9 +75,9 @@ public class ProyectoController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable Integer id) {
-		try {
+	public ResponseEntity<?> eliminar(@PathVariable Integer id) {	try {
 			boolean eliminado = service.eliminar(id);
 
 			if (!eliminado) {
