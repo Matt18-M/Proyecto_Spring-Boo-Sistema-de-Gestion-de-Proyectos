@@ -21,9 +21,21 @@ public class ProyectoController {
 		this.service = service;
 	}
 
+	@GetMapping("/publico/resumen")
+	public ResponseEntity<?> resumenPublico() {
+		try {
+			Long total = service.contarProyectos();
+			return ResponseEntity.ok(total);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al contar proyectos: " + e.getMessage());
+		}
+	}
+
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<?> guardar(@RequestBody Proyecto proyecto) {	try {
+	public ResponseEntity<?> guardar(@RequestBody Proyecto proyecto) {
+		try {
 			Proyecto nuevo = service.guardar(proyecto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
 		} catch (Exception e) {
@@ -78,7 +90,8 @@ public class ProyectoController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable Integer id) {	try {
+	public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+		try {
 			boolean eliminado = service.eliminar(id);
 
 			if (!eliminado) {
