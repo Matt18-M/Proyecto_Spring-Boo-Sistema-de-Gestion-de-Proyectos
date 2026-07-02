@@ -16,7 +16,11 @@ import com.krakedev.proyectos.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api/auth")
-
+@CrossOrigin(
+		origins = "http://localhost:5173",
+		methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE},
+		allowedHeaders = {"Authorization", "Content-Type"}
+)
 public class AuthController {
 
 	private final UsuarioService usuarioService;
