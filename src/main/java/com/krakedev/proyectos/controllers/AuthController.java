@@ -16,11 +16,8 @@ import com.krakedev.proyectos.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(
-		origins = "http://localhost:5173",
-		methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE},
-		allowedHeaders = {"Authorization", "Content-Type"}
-)
+@CrossOrigin(origins = "http://localhost:5173", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+		RequestMethod.DELETE }, allowedHeaders = { "Authorization", "Content-Type" })
 public class AuthController {
 
 	private final UsuarioService usuarioService;
@@ -61,7 +58,7 @@ public class AuthController {
 
 			String token = JwtUtil.generarToken(usuario.getUsername(), usuario.getRol());
 
-			return ResponseEntity.ok(Map.of("token", token));
+			return ResponseEntity.ok(Map.of("token", token, "rol", usuario.getRol()));
 
 		} else {
 
@@ -77,11 +74,8 @@ public class AuthController {
 		String usuario = auth.getName();
 		String rol = auth.getAuthorities().iterator().next().getAuthority();
 
-		return ResponseEntity.ok(Map.of(
-				"mensaje", "Bienvenido al sistema protegido por Spring Security",
-				"usuario", usuario,
-				"rol_detectado", rol,
-				"status", "Autenticado exitosamente"));
+		return ResponseEntity.ok(Map.of("mensaje", "Bienvenido al sistema protegido por Spring Security", "usuario",
+				usuario, "rol_detectado", rol, "status", "Autenticado exitosamente"));
 	}
 
 	@PostMapping("/logout")
