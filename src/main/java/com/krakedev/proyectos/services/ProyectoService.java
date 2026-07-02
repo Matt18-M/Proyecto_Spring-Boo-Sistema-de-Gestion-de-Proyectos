@@ -13,23 +13,28 @@ public class ProyectoService {
 
 	private final ProyectoRepository repository;
 
+	
 	public ProyectoService(ProyectoRepository repository) {
 		this.repository = repository;
 	}
 
+	
 	public Proyecto guardar(Proyecto proyecto) {
 		return repository.save(proyecto);
 	}
 
+	
 	public List<Proyecto> listar() {
 		return repository.findAll();
 	}
 
+	
 	public Proyecto buscar(Integer id) {
 		Optional<Proyecto> resultado = repository.findById(id);
 		return resultado.orElse(null);
 	}
 
+	
 	public Proyecto actualizar(Integer id, Proyecto datos) {
 
 		Proyecto proyecto = buscar(id);
@@ -45,6 +50,7 @@ public class ProyectoService {
 		return repository.save(proyecto);
 	}
 
+	
 	public boolean eliminar(Integer id) {
 
 		Proyecto proyecto = buscar(id);
@@ -56,4 +62,11 @@ public class ProyectoService {
 		repository.deleteById(id);
 		return true;
 	}
+
+	
+	public Long contarProyectos() {
+		return repository.count();
+	}
+
 }
+

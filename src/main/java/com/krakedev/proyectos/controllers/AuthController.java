@@ -16,6 +16,7 @@ import com.krakedev.proyectos.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api/auth")
+
 public class AuthController {
 
 	private final UsuarioService usuarioService;

@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/empleados")
+
 public class EmpleadoController {
 
 	private final EmpleadoService service;

@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/proyectos")
+
 public class ProyectoController {
 
 	private final ProyectoService service;

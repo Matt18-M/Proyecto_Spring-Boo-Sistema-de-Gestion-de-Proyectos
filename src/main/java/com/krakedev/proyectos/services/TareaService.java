@@ -28,7 +28,18 @@ public class TareaService {
 		this.empleadoRepository = empleadoRepository;
 	}
 
+	
 	public Tarea guardar(Tarea tarea) {
+
+		String prioridad = tarea.getPrioridad();
+
+		if (prioridad == null ||
+				(!prioridad.equals("ALTA") &&
+				 !prioridad.equals("MEDIA") &&
+				 !prioridad.equals("BAJA"))) {
+
+			throw new IllegalArgumentException("Prioridad no válida");
+		}
 
 		Proyecto proyecto = proyectoRepository.findById(tarea.getProyecto().getId())
 				.orElseThrow(() -> new RuntimeException("Proyecto no existe"));
@@ -48,16 +59,19 @@ public class TareaService {
 
 		return repository.save(tarea);
 	}
-
+	
+	
 	public List<Tarea> listar() {
 		return repository.findAll();
 	}
 
+	
 	public Tarea buscar(Integer id) {
 		Optional<Tarea> resultado = repository.findById(id);
 		return resultado.orElse(null);
 	}
 
+	
 	public Tarea actualizar(Integer id, Tarea datos) {
 
 		Tarea tarea = buscar(id);
@@ -65,14 +79,16 @@ public class TareaService {
 		if (tarea == null) {
 			return null;
 		}
-
+		
 		tarea.setDescripcion(datos.getDescripcion());
 		tarea.setFechaLimite(datos.getFechaLimite());
 		tarea.setCostoEstimado(datos.getCostoEstimado());
+		tarea.setPrioridad(datos.getPrioridad());
 
 		return repository.save(tarea);
 	}
 
+	
 	public boolean eliminar(Integer id) {
 
 		Tarea tarea = buscar(id);
